@@ -15,7 +15,7 @@ export const validateBook = async (body) => {
         {
             bookName: joi.string().required().min(3).max(50),
             authorName: joi.string().required().min(3).max(50),
-            authorAge: joi.number().required().min(10).max(100),
+            authorAge: joi.number().required().integer().min(10, 'age must be greater then one').max(20, 'great'),
             genre: joi.string().required().min(3).max(20),
         }
     );
