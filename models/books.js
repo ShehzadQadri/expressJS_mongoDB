@@ -24,8 +24,9 @@ export const validateBook = async (body) => {
         .catch(err => {
             return { message: err.message }
         });
-
 }
 
+
+
 //where as book is collection name of database mongodb
-export default new mongoose.model("book", BookSchema);
+export const Book = new mongoose.model("book", BookSchema);

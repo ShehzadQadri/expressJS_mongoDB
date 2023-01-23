@@ -1,11 +1,7 @@
 import express from 'express';
-import Book, { validateBook } from '../models/books.js';
+import { Book, validateBook } from '../models/books.js';
 
 const router = express.Router();
-
-router.get('/', (req, res) => {
-    res.send('helow worlds')
-})
 
 //POST: Create a new book
 router.post('/', async (req, res) => {
@@ -33,4 +29,40 @@ router.post('/', async (req, res) => {
         })
 })
 
-export default router;
+router.get('/', async (req, res) => {
+    try {
+        // const { id } = req.query;
+        // console.log("id", id)
+        const allBooks = await Book.find({});
+        return res.status(200).send({ allBooks });
+    } catch (err) {
+        return res.status(401).send({ status: 401, err });
+    }
+})
+
+
+router.get('/:bookId', (req, res) => {
+
+    // const { id } = req.query;
+    // console.log("id", id)
+    Book.findById(req.params.bookId)
+        .then(book => {
+            if (book) return res.send(book);
+        })
+        .catch(err => {
+            res.status(500).send(err.message)
+        })
+})
+
+router.get('/api', async (req, res) => {
+    try {
+        const { id } = req.query;
+        console.log("id", id)
+        const findBook = await Book.find({ "_id": id });
+        return res.status(200).send({ findBook });
+    } catch (err) {
+        return res.status(401).send({ status: 401, err });
+    }
+})
+
+export default router;  
